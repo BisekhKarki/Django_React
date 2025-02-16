@@ -1,0 +1,49 @@
+input {
+  padding: 11px 20px 11px 10px;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+.todoButton {
+  margin: 0px 0px 0px 10px;
+  border: 1px solid black;
+  transition: all 0.7s ease;
+}
+.todoButton:hover {
+  background: black;
+  color: white;
+  border: 1px solid gray;
+}
+
+.date {
+  padding: 11px 20px 11px 10px;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.edit {
+  background: yellow;
+  color: black;
+  border: 1px solid gray;
+}
+
+.delete {
+  background: red;
+  color: black;
+  border: 1px solid gray;
+}
+
+.todos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
