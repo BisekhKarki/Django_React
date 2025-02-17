@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .serializers import TodoSerializer
-from .models import Todo
+from .serializers import TodoSerializer,UserModelSerializer
+from .models import Todo,UserModel
 
 
 # Create your views here.
@@ -42,3 +42,37 @@ def edit_todo(request,pk):
         serializer.save()
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def show_user(request):
+    users = UserModel.objects.all()
+    serializer = UserModelSerializer(users,many=True)
+    return Response(serializer.data,  status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def register_user(request):
+    user = request.data
+    userEmail = user.get("email")
+    if UserModel.objects.filter(email=userEmail).exists():
+        return Response({"error":"User with the email already exists"},status=status.HTTP_400_BAD_REQUEST)
+    
+    serializer = UserModelSerializer(data=user)
+    print(serializer)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+    return Response(serializer.errors,  status=status.HTTP_400_BAD_REQUEST)
+
+
+# @api_view(['POST'])
+# def login_user(request):
+#     user = UserModel.objects.get(email=request.email)
+
+#     if user.DoesNotExist:
+#         return Response(status=status.HTTP_400_BAD_REQUEST)
+       
+#     return Response(serializer.data,status=status.HTTP_201_CREATED)
+    
+    
