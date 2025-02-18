@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class Todo(models.Model):
@@ -9,10 +10,15 @@ class Todo(models.Model):
         return self.name
     
 
-class UserModel(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    password = models.TextField(max_length=100)
+#  username = models.CharField(max_length=100,unique=True)
+#     email = models.EmailField(max_length=100)
+#     password = models.TextField(max_length=100)
+
+class UserModel(AbstractUser):
+   
+    # username = models.CharField(max_length=100,unique=True)
+    # email = models.EmailField(max_length=100)
+    # password = models.TextField(max_length=100)
 
     def __str__(self):
         return self.username

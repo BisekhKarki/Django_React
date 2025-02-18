@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
   const [todo, setTodo] = useState([]);
@@ -9,8 +10,14 @@ const Todo = () => {
   const [date, setDate] = useState("");
   const [getId, setGetId] = useState(0);
   const [editing, setEditing] = useState(false);
+  const navigate = useNavigate();
+  const [toLogin, setToLogin] = useState(false);
 
   console.log(todo);
+
+  if (toLogin) {
+    navigate("/");
+  }
 
   async function getTodo() {
     try {
@@ -74,11 +81,6 @@ const Todo = () => {
     }
   }
 
-  console.log({
-    value,
-    date,
-    getId,
-  });
   async function editTodo() {
     try {
       const data = {
@@ -105,9 +107,27 @@ const Todo = () => {
     }
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+    console.log(token);
+    if (!token) {
+      setToLogin(true);
+      navigate("/");
+    }
+  }, [toLogin]);
+
   return (
     <div>
       <h1>Todo List</h1>
+      <button
+        className="todoButton"
+        onClick={() => {
+          localStorage.removeItem("Token");
+          setToLogin(true);
+        }}
+      >
+        Logout
+      </button>
       <div>
         <input
           placeholder="Enter you todo"

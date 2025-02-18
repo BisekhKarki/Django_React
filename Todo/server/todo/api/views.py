@@ -2,8 +2,10 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .serializers import TodoSerializer,UserModelSerializer
+from .serializers import TodoSerializer,UserModelSerializer,LoginSerializer
 from .models import Todo,UserModel
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 
 # Create your views here.
@@ -66,13 +68,32 @@ def register_user(request):
     return Response(serializer.errors,  status=status.HTTP_400_BAD_REQUEST)
 
 
-# @api_view(['POST'])
-# def login_user(request):
-#     user = UserModel.objects.get(email=request.email)
-
-#     if user.DoesNotExist:
-#         return Response(status=status.HTTP_400_BAD_REQUEST)
-       
-#     return Response(serializer.data,status=status.HTTP_201_CREATED)
+@api_view(['POST'])
+def login_user(request):
+    userDetail = request.data
+    serializer = LoginSerializer(data=userDetail)
+    if not serializer.is_valid():
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    email = request.data['email']
+    password = request.data['password']
+    # user_object = authenticate(email=email,password=password)
+    user_object = UserModel.objects.get(email=email)
+    print(user_object.id)
+    
+    if user_object and user_object.password == password:
+        token, _ = Token.objects.get_or_create(user=user_object)
+        return Response({
+            'status':True,
+            'data':{
+                'token':str(token)
+            }
+        })
+    
+    return Response({
+            'status':False,
+            'data':"",
+            'message':"Invalid Credentials"
+        })
     
     

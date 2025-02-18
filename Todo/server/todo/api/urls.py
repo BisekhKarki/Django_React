@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import todo_view,add_todo,delete_todo,edit_todo,register_user,show_user
+from .views import todo_view,add_todo,delete_todo,edit_todo,register_user,show_user, login_user
 
 urlpatterns = [
     path('',todo_view,name='view_todo'),
@@ -9,6 +9,6 @@ urlpatterns = [
     path('edit/<int:pk>/',edit_todo,name='edit_todo'),
     path('register/',register_user,name='register'),
     path('getUser/',show_user,name='show_user'),
-    # path('/login',register_user,name='login'),
+    path('login/',login_user,name='login'),
 
 ]

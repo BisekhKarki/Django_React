@@ -30,7 +30,7 @@ const Signup = () => {
         toast.error("User Registration failed");
       }
     } catch (error) {
-      toast.error("Internal Server error");
+      toast.error(error);
     }
   };
 
