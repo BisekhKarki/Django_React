@@ -1,13 +1,14 @@
 import { FaSquarePlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <nav className="navbar bg-body-tertiary py-50" style={{ padding: "20px" }}>
       <div className="container d-flex justify-content-around">
-        <animate className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/">
           <h4 style={{ fontWeight: "bold" }}>Notey</h4>
-        </animate>
+        </Link>
         <div className="d-flex">
           <div
             className="input-group input-group-sm"
@@ -26,11 +27,11 @@ const NavBar = () => {
           {/* <button className="btn btn-outline-primary btn-md" type="button">Add</button> */}
         </div>
 
-        <a to="/add-notes" style={{ textDecoration: "none" }}>
+        <Link to="/add-notes" style={{ textDecoration: "none" }}>
           <button className="btn btn-outline-primary btn-md" type="button">
             <FaSquarePlus /> Add Notes
           </button>
-        </a>
+        </Link>
       </div>
     </nav>
 
