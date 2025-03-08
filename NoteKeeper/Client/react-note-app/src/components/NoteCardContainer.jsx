@@ -1,20 +1,15 @@
 import NoteCard from "./NoteCard";
 
-const NoteCardContainer = () => {
+const NoteCardContainer = ({ notes }) => {
   return (
     <div className="container">
       <div className="note-has-grid row">
-        <NoteCard color="green" />
-        <NoteCard color="purple" />
-        <NoteCard color="blue" />
-
-        <NoteCard color="green" />
-        <NoteCard color="purple" />
-        <NoteCard color="blue" />
-
-        <NoteCard color="green" />
-        <NoteCard color="purple" />
-        <NoteCard color="blue" />
+        {notes &&
+          notes.map((d, index) => (
+            <div key={index}>
+              <NoteCard note={notes} />
+            </div>
+          ))}
       </div>
     </div>
   );

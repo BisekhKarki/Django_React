@@ -4,12 +4,15 @@ import { FaNoteSticky } from "react-icons/fa6";
 import { MdMarkunread } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const NoteCard = ({ color }) => {
+const NoteCard = ({ note }) => {
   return (
     <div className="col-md-4 single-note-item all-category">
       <div className="card card-body">
-        <span className="side-stick" style={{ backgroundColor: color }}></span>
-        <FaNoteSticky style={{ marginLeft: "auto", color: color }} />
+        <span
+          className="side-stick"
+          style={{ backgroundColor: "green" }}
+        ></span>
+        <FaNoteSticky style={{ marginLeft: "auto", color: "red" }} />
         <a
           to={"/notes-detail"}
           style={{ textDecoration: "none", color: "black" }}
@@ -22,7 +25,7 @@ const NoteCard = ({ color }) => {
               className="note-title text-truncate w-75 mb-0"
               data-noteheading="Book a Ticket for Movie"
             >
-              Book a Ticket for Movie{" "}
+              {note?.title}
             </h5>
           </Link>
         </a>
@@ -32,18 +35,18 @@ const NoteCard = ({ color }) => {
             className="note-inner-content text-muted"
             data-notecontent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis."
           >
-            Blandit tempus porttitor aasfs. Integer posuere erat a ante
-            venenatis.
+            {note.body}
           </p>
         </div>
         <div className="d-flex align-items-center">
           <a to="/notes-detail">
             <span className="mr-1">
               <MdMarkunread
-                style={{ fontSize: "25px", cursor: "pointer", color: color }}
+                style={{ fontSize: "25px", cursor: "pointer", color: "yellow" }}
               />
             </span>
           </a>
+          <small className="text-muted">{note.category}</small>
 
           <span className="mr-1">
             <i className="fa fa-trash remove-note"></i>

@@ -1,11 +1,11 @@
 import Filter from "../components/Filter";
 import NoteCardContainer from "../components/NoteCardContainer";
 
-const HomePage = () => {
+const HomePage = ({ data }) => {
   return (
     <div>
       <Filter />
-      <NoteCardContainer />
+      <NoteCardContainer notes={data} />
     </div>
   );
 };
