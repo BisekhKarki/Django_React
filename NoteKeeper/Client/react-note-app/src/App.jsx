@@ -32,15 +32,26 @@ function App() {
       });
   }, []);
 
+  const addNote = (data) => {
+    axios
+      .post(`http://localhost:8000/notes/`, data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   // console.log(notes);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayouts />}>
         <Route index element={<HomePage data={notes} loading={isLoading} />} />
-        <Route path="/add-notes" element={<AddNotes />} />
+        <Route path="/add-notes" element={<AddNotes addNote={addNote} />} />
         <Route path="/edit-note" element={<EditNotePage />} />
-        <Route path="/note-detail" element={<NotePage />} />
+        <Route path="/notes/:slug" element={<NotePage />} />
       </Route>
     )
   );

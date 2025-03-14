@@ -1,19 +1,41 @@
-import React from "react";
+import { useState } from "react";
 import "./AddNotes.css";
+import PropTypes from "prop-types";
 
-const AddNotes = () => {
+const AddNotes = ({ addNote }) => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [category, setCategory] = useState("");
+
+  const newNote = {
+    title: title,
+    body: body,
+    category: category,
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!title && !body && !category) {
+      return;
+    }
+    addNote(newNote);
+    console.log(newNote);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <h5>Add New Note</h5>
       <div className="mb-3">
         <label htmlFor="exampleFormControlInput1" className="form-label">
           Title
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control"
           id="exampleFormControlInput1"
           placeholder="Enter note's title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
 
@@ -26,22 +48,26 @@ const AddNotes = () => {
           id="exampleFormControlTextarea1"
           rows={4}
           placeholder="Enter note's content"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
 
       <div className="mb-3">
         <label htmlFor="exampleFormControlTextarea1" className="form-label">
-          Note's category
+          Notes category
         </label>
         <select
           className="form-select"
           aria-label="Default select example"
           style={{ height: "40px" }}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option selected>Pick a category</option>
-          <option value="1">Business</option>
-          <option value="2">Personal</option>
-          <option value="3">Important</option>
+          <option value="Business">Business</option>
+          <option value="Personal">Personal</option>
+          <option value="Important">Important</option>
         </select>
       </div>
 
@@ -53,6 +79,10 @@ const AddNotes = () => {
       </button>
     </form>
   );
+};
+
+AddNotes.propTypes = {
+  addNote: PropTypes.any.isRequired, // Change to a more specific type if needed
 };
 
 export default AddNotes;
