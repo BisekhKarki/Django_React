@@ -1,6 +1,7 @@
 import Loader from "./Loader";
 import NoteCard from "./NoteCard";
 import PropTypes from "prop-types";
+import "../index.css";
 
 const NoteCardContainer = ({ notes, loading }) => {
   return (

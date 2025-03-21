@@ -1,11 +1,13 @@
 import { useState } from "react";
 import "./AddNotes.css";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const AddNotes = ({ addNote }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("");
+  const navigate = useNavigate();
 
   const newNote = {
     title: title,
@@ -19,6 +21,7 @@ const AddNotes = ({ addNote }) => {
       return;
     }
     addNote(newNote);
+    navigate("/");
     console.log(newNote);
   };
 
@@ -65,9 +68,9 @@ const AddNotes = ({ addNote }) => {
           onChange={(e) => setCategory(e.target.value)}
         >
           <option selected>Pick a category</option>
-          <option value="Business">Business</option>
-          <option value="Personal">Personal</option>
-          <option value="Important">Important</option>
+          <option value="BUSINESS">Business</option>
+          <option value="PERSONAL">Personal</option>
+          <option value="IMPORTANT">Important</option>
         </select>
       </div>
 
