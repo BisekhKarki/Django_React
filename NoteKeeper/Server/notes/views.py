@@ -7,6 +7,16 @@ from rest_framework import status
 
 
 # Create your views here.
+@api_view(["GET"])
+def search_notes(request):
+    query = request.query_params.get("search")
+    notes = Note.objects.filter(Q(title_icontains=query) | Q(body_icontains=query) | Q(category_icontains=query))
+    seralizer = NoteSerializer(notes,many=True)
+    return Response(seralizer.data, status=status.HTTP_200_OK)
+
+
+
+
 @api_view(['GET','POST'])
 def notes(request):
     if request.method == 'GET':
