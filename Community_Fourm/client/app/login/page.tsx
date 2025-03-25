@@ -22,9 +22,8 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
     try {
-      const response = await fetch(`${baseUrl}users/`, {
+      const response = await fetch(`${baseUrl}users/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,8 +35,10 @@ const Page = () => {
       });
 
       const data = await response.json();
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success(data.message);
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("refresh_token", data.refresh_token);
         router.push("/");
       } else {
         toast.error(data.message);
@@ -77,7 +78,7 @@ const Page = () => {
             </Link>
           </p>
           <button type="submit" className="bg-red-500 rounded py-1 text-white">
-            Submit
+            Login
           </button>
         </form>
       </div>

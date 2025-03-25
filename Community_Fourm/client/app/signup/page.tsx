@@ -96,7 +96,7 @@ const Page = () => {
             </Link>
           </p>
           <button type="submit" className="bg-red-500 rounded py-1 text-white">
-            Submit
+            Register
           </button>
         </form>
       </div>
