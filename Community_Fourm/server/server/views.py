@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view  
+from rest_framework.decorators import api_view ,permission_classes
 from .models import UserModel
 from .serializers import UserModelSerializer,UserLoginSeralizers
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework.permissions import IsAuthenticated
+
 
 # Create your views here.
 @api_view(['GET','POST'])
@@ -51,13 +53,12 @@ def login_user(request):
         user = serializer.validated_data
 
         # Generate the JWT token
-        refresh = RefreshToken.for_user(user)
-
+        accessToken = AccessToken.for_user(user)
+    
         return Response({
             "success": True,
             "message": "Login successful",
-            "access_token": str(refresh.access_token),
-            "refresh_token": str(refresh),
+            "access_token": str(accessToken),
 
         },status=status.HTTP_200_OK)
     
@@ -65,3 +66,16 @@ def login_user(request):
         "success": False,
         "errors": serializer.errors
     }, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+@api_view(['POST'])
+def verify_token(request):
+    token = request.data.get('token')
+    
+    try:
+        AccessToken(token=token)
+        print(AccessToken(token=token))
+        return Response({"success": True, "message": "Token is valid"}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"success": False, "message": "Invalid Token", "error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)

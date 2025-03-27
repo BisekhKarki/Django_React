@@ -38,7 +38,6 @@ const Page = () => {
       if (response.status === 200) {
         toast.success(data.message);
         localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
         router.push("/");
       } else {
         toast.error(data.message);

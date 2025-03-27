@@ -52,8 +52,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Token expiry time
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # Refresh token expiry time
-    'ROTATE_REFRESH_TOKENS': True,  # Generates new refresh token on each use
+    # 'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # Refresh token expiry time
+    # 'ROTATE_REFRESH_TOKENS': True,  # Generates new refresh token on each use
 }
 
 MIDDLEWARE = [
