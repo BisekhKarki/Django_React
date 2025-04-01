@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserModel
+from .models import UserModel,Article,Category,Comment,Like
 from django.contrib.auth.hashers import make_password,check_password
 
 
@@ -32,5 +32,46 @@ class UserLoginSeralizers(serializers.Serializer):
 
         return user
     
+# Minimal User Serializer to exclude sensitive data
+class UserPublicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ['id', 'username']  # Only include public fields
 
 
+# Category models serializers
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id','name','description']
+
+
+# Article serialiers
+class ArticleSerializer(serializers.ModelSerializer):
+    author = UserPublicSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
+    class Meta:
+        model = Article
+        fields = ['id','title','content','author','category','images','created_at','updated_at']
+
+
+
+
+# Comment Serializer
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserPublicSerializer(read_only=True)
+    article = serializers.PrimaryKeyRelatedField(queryset=Article.objects.all())
+    
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'article', 'content', 'created_at']
+
+
+# Like Serializer
+class LikeSerializer(serializers.ModelSerializer):
+    user = UserPublicSerializer(read_only=True)
+    article = serializers.PrimaryKeyRelatedField(queryset=Article.objects.all())
+
+    class Meta:
+        model = Like
+        fields = ['id','user','article','created_at']

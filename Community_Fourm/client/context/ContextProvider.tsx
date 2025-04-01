@@ -20,12 +20,13 @@ const TokenValidator = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   useEffect(() => {
     const getToken = localStorage.getItem("access_token");
-    if (getToken) {
-      setToken(getToken);
-    } else {
+    if (!getToken) {
       router.replace("/login");
+      return;
+    } else {
+      setToken(getToken);
     }
-  }, [token, setToken]);
+  }, [token, setToken, router]);
 
   return <>{children}</>;
 };

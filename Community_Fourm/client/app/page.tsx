@@ -1,16 +1,18 @@
 "use client";
 
 import { baseUrl } from "@/constants/BaseUrl";
-import ContextHook from "@/context/ContextHook";
+
 import { useRouter } from "next/navigation";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Articles from "./components/Articles";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
-  const { token } = ContextHook();
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const checkToken = async () => {
+  const checkToken = async (token: string) => {
     try {
       const response = await fetch(`${baseUrl}users/verify/`, {
         method: "POST",
@@ -22,7 +24,7 @@ export default function Home() {
         }),
       });
 
-      if (response.status == 401) {
+      if (response.status === 401) {
         router.push("/login");
       }
     } catch (error: unknown) {
@@ -32,12 +34,22 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (token) {
-      checkToken();
+    const getToken = localStorage.getItem("access_token");
+    if (!getToken) {
+      router.replace("/login");
+      return;
     }
-  }, [token]);
+    checkToken(getToken).finally(() => setLoading(false));
+  }, []);
 
-  console.log(token);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  return <div>Home</div>;
+  return (
+    <div>
+      <Navbar />
+      <Articles />
+    </div>
+  );
 }

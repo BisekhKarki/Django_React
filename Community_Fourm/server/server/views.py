@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view ,permission_classes
-from .models import UserModel
-from .serializers import UserModelSerializer,UserLoginSeralizers
+from .models import UserModel,Article,Category,Comment,Like
+from .serializers import UserModelSerializer,UserLoginSeralizers, ArticleSerializer, CommentSerializer, Like, CategorySerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import AccessToken
@@ -71,11 +71,18 @@ def login_user(request):
 
 @api_view(['POST'])
 def verify_token(request):
-    token = request.data.get('token')
     
     try:
-        AccessToken(token=token)
-        print(AccessToken(token=token))
+        permission_classes = [IsAuthenticated]
+        # print(AccessToken(token=token))
         return Response({"success": True, "message": "Token is valid"}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"success": False, "message": "Invalid Token", "error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
+    
+
+
+@api_view(['GET'])
+def get_all_articles(request):
+    articles = Article.objects.all()
+    serializers = ArticleSerializer(articles,many=True)
+    return Response({"success": True, "message": serializers.data}, status=status.HTTP_200_OK)
