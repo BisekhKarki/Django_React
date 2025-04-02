@@ -34,7 +34,7 @@ class Article(models.Model):
     content = models.TextField()
     author = models.ForeignKey(UserModel,on_delete=models.CASCADE, related_name="article")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='articles')
-    images= models.ImageField(upload_to="article_images/",null=True,blank=True)
+    images= models.ImageField(upload_to="media/article_images/",null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

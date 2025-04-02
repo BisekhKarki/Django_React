@@ -2,6 +2,7 @@
 
 import { baseUrl } from "@/constants/BaseUrl";
 import React, { useEffect, useState } from "react";
+import ArticleCard from "./ArticleCard";
 
 export interface authorProps {
   id: number;
@@ -49,11 +50,13 @@ const Articles = () => {
     fetchArticles();
   }, []);
 
-  console.log(article);
-
   return (
     <div>
-      <div></div>
+      <div className="px-5 py-5 flex gap-10 flex-wrap">
+        {article.map((a, index) => (
+          <ArticleCard article={a} key={index} />
+        ))}
+      </div>
     </div>
   );
 };

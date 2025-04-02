@@ -5,8 +5,8 @@ import { baseUrl } from "@/constants/BaseUrl";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
-import Articles from "./components/Articles";
-import Navbar from "./components/Navbar";
+import Articles from "../components/Articles";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const router = useRouter();

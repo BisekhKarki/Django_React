@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import UserModel,Article,Category,Comment,Like
 from django.contrib.auth.hashers import make_password,check_password
-
+from django.conf import settings
 
 
 class UserModelSerializer(serializers.ModelSerializer):
@@ -50,6 +50,20 @@ class CategorySerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     author = UserPublicSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
+    images = serializers.SerializerMethodField()
+
+    def get_images(self, obj):
+        if obj.images:
+            request = self.context.get("request")
+            image_url = obj.images.url  # Get the image URL
+            
+            if request:
+                return request.build_absolute_uri(image_url)  # Ensure absolute URL
+            
+            return f"{settings.MEDIA_URL}{image_url.lstrip('/')}"  # Fallback for missing request
+        
+        return None
+    
     class Meta:
         model = Article
         fields = ['id','title','content','author','category','images','created_at','updated_at']
@@ -75,3 +89,6 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['id','user','article','created_at']
+
+
+

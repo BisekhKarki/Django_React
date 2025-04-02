@@ -71,18 +71,17 @@ def login_user(request):
 
 @api_view(['POST'])
 def verify_token(request):
-    
-    try:
-        permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    if permission_classes:
         # print(AccessToken(token=token))
         return Response({"success": True, "message": "Token is valid"}, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({"success": False, "message": "Invalid Token", "error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
+    else:  
+        return Response({"success": False, "message": "Invalid Token", "error": "Unauthenticated"}, status=status.HTTP_401_UNAUTHORIZED)
     
 
 
 @api_view(['GET'])
 def get_all_articles(request):
     articles = Article.objects.all()
-    serializers = ArticleSerializer(articles,many=True)
+    serializers = ArticleSerializer(articles,many=True,context={"request": request})
     return Response({"success": True, "message": serializers.data}, status=status.HTTP_200_OK)
